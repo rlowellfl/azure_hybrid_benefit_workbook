@@ -1,0 +1,57 @@
+{
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workbookDisplayName": {
+      "type": "string",
+      "defaultValue": "Azure Hybrid Benefit Workbook",
+      "metadata": {
+        "description": "The friendly name for the workbook that is used in the Gallery or Saved List.  This name must be unique within a resource group."
+      }
+    },
+    "workbookType": {
+      "type": "string",
+      "defaultValue": "workbook",
+      "metadata": {
+        "description": "The gallery that the workbook will been shown under. Supported values include workbook, tsg, etc. Usually, this is 'workbook'"
+      }
+    },
+    "workbookSourceId": {
+      "type": "string",
+      "defaultValue": "Azure Monitor",
+      "metadata": {
+        "description": "The id of resource instance to which the workbook will be associated"
+      }
+    },
+    "workbookId": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "metadata": {
+        "description": "The unique guid for this workbook instance"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[parameters('workbookId')]",
+      "type": "microsoft.insights/workbooks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2022-04-01",
+      "dependsOn": [],
+      "kind": "shared",
+      "properties": {
+        "displayName": "[parameters('workbookDisplayName')]",
+        "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":9,\"content\":{\"version\":\"KqlParameterItem/1.0\",\"crossComponentResources\":[\"value::all\"],\"parameters\":[{\"id\":\"90fdf506-ca5e-4fa4-80fd-fb6a3f5b8c61\",\"version\":\"KqlParameterItem/1.0\",\"name\":\"AHBCores\",\"label\":\"AHB Entitlement\",\"type\":1,\"description\":\"Enter the total number of cores which your Azure Hybrid Benefit entitlements allow.\",\"isRequired\":true,\"timeContext\":{\"durationMs\":86400000},\"value\":\"0\"},{\"id\":\"ce5df180-9d80-4a35-9dfc-3d042015a66e\",\"version\":\"KqlParameterItem/1.0\",\"name\":\"TotalCores\",\"label\":\"Total VM Cores\",\"type\":1,\"description\":\"The total number of cores across all VMs\",\"query\":\"resources \\r\\n| where type =~ 'Microsoft.Compute/virtualMachines'\\r\\n| extend licenseType = tostring(properties.['licenseType'])\\r\\n| extend vmSize = tostring(properties.hardwareProfile['vmSize'])\\r\\n| extend Cores = extract(@\\\"^[^\\\\d]*(\\\\d+)\\\", 1, vmSize, typeof(int))\\r\\n| summarize sum(Cores)\",\"crossComponentResources\":[\"value::all\"],\"timeContext\":{\"durationMs\":86400000},\"queryType\":1,\"resourceType\":\"microsoft.resourcegraph/resources\"},{\"id\":\"68398066-e44f-4b87-9927-4831fa978165\",\"version\":\"KqlParameterItem/1.0\",\"name\":\"ConsumedCores\",\"label\":\"Total AHB Cores Consumed\",\"type\":1,\"description\":\"The number of Azure Hybrid Benefit enabled cores in use. You must ensure that your Azure Hybrid Benefit entitlement meets or exceeds this number.\",\"query\":\"resources \\r\\n| where type =~ 'Microsoft.Compute/virtualMachines'\\r\\n| extend licenseType = tostring(properties.['licenseType'])\\r\\n| extend vmSize = tostring(properties.hardwareProfile['vmSize'])\\r\\n| extend Cores = extract(@\\\"^[^\\\\d]*(\\\\d+)\\\", 1, vmSize, typeof(int))\\r\\n| extend AHUB = iff((licenseType in (\\\"Windows_Server\\\")), \\\"Yes\\\", \\\"No\\\")\\r\\n| extend Consumed = iff((AHUB == \\\"Yes\\\"), iff((Cores >= 8), Cores, 8), 0)\\r\\n| summarize sum(Consumed)\",\"crossComponentResources\":[\"value::all\"],\"timeContext\":{\"durationMs\":86400000},\"queryType\":1,\"resourceType\":\"microsoft.resourcegraph/resources\"}],\"style\":\"pills\",\"queryType\":1,\"resourceType\":\"microsoft.resourcegraph/resources\"},\"name\":\"parameters - 1\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"resources \\r\\n| where type =~ 'Microsoft.Compute/virtualMachines'\\r\\n| extend licenseType = tostring(properties.['licenseType'])\\r\\n| extend vmSize = tostring(properties.hardwareProfile['vmSize'])\\r\\n| extend Cores = extract(@\\\"^[^\\\\d]*(\\\\d+)\\\", 1, vmSize, typeof(int))\\r\\n| extend AHUB = iff((licenseType in (\\\"Windows_Server\\\")), \\\"Yes\\\", \\\"No\\\")\\r\\n| extend Optimal = iff((Cores >= 8), \\\"Yes\\\", \\\"No\\\")\\r\\n| extend Consumed = iff((AHUB == \\\"Yes\\\"), iff((Cores >= 8), Cores, 8), 0)\\r\\n| project subscriptionId, resourceGroup, name, AHUB, Cores, Consumed, Optimal\",\"size\":0,\"queryType\":1,\"resourceType\":\"microsoft.resourcegraph/resources\",\"crossComponentResources\":[\"value::all\"],\"gridSettings\":{\"formatters\":[{\"columnMatch\":\"Group\",\"formatter\":1}],\"sortBy\":[{\"itemKey\":\"Optimal\",\"sortOrder\":1}],\"labelSettings\":[{\"columnId\":\"subscriptionId\",\"label\":\"Subscription ID\"},{\"columnId\":\"resourceGroup\",\"label\":\"Resource Group\"},{\"columnId\":\"name\",\"label\":\"VM Name\"},{\"columnId\":\"AHUB\",\"label\":\"Azure Hybrid Benefit?\",\"comment\":\"Is Azure Hybrid Benefit enabled on this VM?\"},{\"columnId\":\"Cores\",\"label\":\"VM Cores\",\"comment\":\"Number of vCPU cores on this VM.\"},{\"columnId\":\"Consumed\",\"label\":\"AHUB Cores\",\"comment\":\"Number of Azure Hybrid Benefit cores consumed by this VM.\"},{\"columnId\":\"Optimal\",\"label\":\"Optimal Use?\",\"comment\":\"Optimal use is 8 cores or greater. Virtual machines with less than 8 cores require at least 8 Hybrid benefit core entitlements.\"}]},\"sortBy\":[{\"itemKey\":\"Optimal\",\"sortOrder\":1}]},\"name\":\"query - 0\"}],\"isLocked\":false,\"fallbackResourceIds\":[\"Azure Monitor\"]}",
+        "version": "1.0",
+        "sourceId": "[parameters('workbookSourceId')]",
+        "category": "[parameters('workbookType')]"
+      }
+    }
+  ],
+  "outputs": {
+    "workbookId": {
+      "type": "string",
+      "value": "[resourceId( 'microsoft.insights/workbooks', parameters('workbookId'))]"
+    }
+  },
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+}
