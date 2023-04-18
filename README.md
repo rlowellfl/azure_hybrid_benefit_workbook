@@ -4,13 +4,13 @@
 
 ### What is Azure Hybrid Benefit?
 
-Azure Hybrid Benefit is a licensing benefit that allows you to bring your on-premises core-based Windows Server, SQL Server, and Red Hat Linux licenses with active Software Assurance (or subscription) to Azure. Utilizing this benefit can save considerable cost by eliminating the hourly licensing charges for Azure resources, allowing you to pay only for hardware resources. By leveraging Azure Hybrid Benefit, you can optimize your cloud infrastructure costs.
+[Azure Hybrid Benefit](https://azure.microsoft.com/en-gb/pricing/hybrid-benefit/) is a licensing benefit that allows you to bring your on-premises core-based Windows Server, SQL Server, and Red Hat Linux licenses with active Software Assurance (or subscription) to Azure. Utilizing this benefit can save considerable cost by eliminating the hourly licensing charges for Azure resources, allowing you to pay only for hardware resources. By leveraging Azure Hybrid Benefit, you can optimize your cloud infrastructure costs.
 
 ### Keeping track of Azure Hybrid Benefit Usage
 
 Managing and keeping track of Azure Hybrid Benefit entitlements can be challenging however, especially for organizations with a large number of licenses and virtual machines. Ensuring that you are utilizing your entitlements effectively while maintaining compliance with licensing agreements requires careful monitoring and management. It is essential to have a clear understanding of your organization's licensing landscape and to establish processes for tracking and applying Azure Hybrid Benefit entitlements.
 
-I've created this Workbook to simplify the management of Azure Hybrid Benefit in your environment. Azure Workbooks provide a flexible, interactive, and customizable way to visualize and analyze your Azure resources. By querying the Azure Resource Graph, the report gathers real-time information about your virtual machines' usage of Azure Hybrid Benefit and creates visualizations to help you understand your licensing landscape.
+I've created this Workbook to simplify the management of Azure Hybrid Benefit in your environment. [Azure Workbooks](https://learn.microsoft.com/en-us/azure/azure-monitor/visualize/workbooks-overview) provide a flexible, interactive, and customizable way to visualize and analyze your Azure resources. By querying the [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview), the report gathers real-time information about your virtual machines' usage of Azure Hybrid Benefit and creates visualizations to help you understand your licensing landscape.
 
 ![Dashboard example image](https://github.com/rlowellfl/azure_workbooks/blob/c2912589d537caea89aa5dca293b799009a53c78/media/ahb_dashboard_example.png)
 
@@ -29,4 +29,4 @@ You can get started with the Dashboard by clicking the following link:
 Please note the following important points when using this tool:
 
 * This dashboard currently only provides information on Windows Server utilization. SQL Server on Azure VMs, SQL Managed Instance, Azure SQL, and Red Hat Linux are not included in this report. Keep an eye on this repository for future updates and additional views.
-* The charts and resources below are based on the Virtual Machines which your user account has RBAC access to view. Virtual machines in other tenants, management groups, subscriptions, or resource groups which are not visible to you will not be calaculated and the totals above may be inaccurate. Please ensure that your organization remains in compliance with all license terms and conditions for Azure Hybrid Benefit.
+* The charts and resources below are based on the Virtual Machines which your user account has RBAC access to view. Virtual machines in other tenants, management groups, subscriptions, or resource groups which are not visible to you will not be calaculated and the totals above may be inaccurate. Please ensure that your organization [remains in compliance](https://learn.microsoft.com/en-us/windows-server/get-started/azure-hybrid-benefit?source=recommendations#how-to-maintain-compliance) with all license terms and conditions for Azure Hybrid Benefit.
