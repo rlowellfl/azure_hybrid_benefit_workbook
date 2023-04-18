@@ -16,13 +16,15 @@ I've created this Workbook to simplify the management of Azure Hybrid Benefit in
 
 ### Getting started
 
-You can get started with the Dashboard by clicking the following link.
+You can get started with the Dashboard by clicking the following link:
+
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frlowellfl%2Fazure_workbooks%2Fmain%2Fhybrid_benefit_tracker_workbook.json)
 
 1. Select your preferred Subscription, Resource Group, and Region to store the dashboard resource. Leave all other fields as-is.
 2. Once the resource is created, open the Dashboard.
 3. Fill in the AHB Entitlement field in the upper left corner with the number of Azure Hybrid Benefit cores which your organization is entitled to.
-4. The workbook will then use the Azure Resource Graph to query all Windows Server virtual machines and display your total virtual machine cores, AHB cores utilized, and AHB cores available. It will also
+4. The workbook will then use the Azure Resource Graph to query all Windows Server virtual machines and display your total virtual machine cores, AHB cores utilized, and AHB cores available.
+5. The workbook will also analyze whether a virtual machine is an optimal use of Azure Hybrid Benefit, as machines with less than 8 vCPUs still consume a minimum of 8 Azure Hybrid Benefit cores.
 
 Please note the following important points when using this tool:
 
