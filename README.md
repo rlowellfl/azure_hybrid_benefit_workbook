@@ -1,6 +1,4 @@
-# Azure Workbooks
-
-## Azure Hybrid Benefit Tracking Dashboard
+# Azure Hybrid Benefit Tracking Dashboard
 
 ### What is Azure Hybrid Benefit?
 
